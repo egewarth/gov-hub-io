@@ -140,6 +140,7 @@
           <li><time datetime="{{ page.config.date.created }}">{{ page.config.date.created | date }}</time></li>
           {% if page.categories %}<li>{% for category in page.categories %}{{ category.title }}{% if not loop.last %}, {% endif %}{% endfor %}</li>{% endif %}
           {% if page.config.readtime %}<li>{% if page.config.readtime == 1 %}1 min de leitura{% else %}{{ page.config.readtime }} min de leitura{% endif %}</li>{% endif %}
+          {% if page.meta.pdf %}<li><a href="{{ page.meta.pdf }}" target="_blank" rel="noopener">Ler o artigo (PDF)</a></li>{% endif %}
         </ul>
       </div>
     </div>

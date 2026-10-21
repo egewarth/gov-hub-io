@@ -16,6 +16,9 @@ Campos opcionais no cabeçalho (front matter) do post:
     description: Resumo curto que aparece no card.
     pdf: /publicacoes/pdf/artigo.pdf                             # card abre o PDF em outra aba
 
+Se ao lado do PDF houver a capa com o mesmo nome (artigo.webp, .png ou .jpg), o card
+fica vertical, com a capa inteira e o título embaixo, como numa estante de livros.
+
 Sem eles, o card usa a imagem padrão, a primeira categoria e o primeiro
 parágrafo depois do título.
 
@@ -75,6 +78,17 @@ def _resumo(markdown):
     return ""
 
 
+def _capa(pdf, config):
+    """Capa do PDF: a imagem com o mesmo nome, ao lado dele em docs/."""
+    if not pdf:
+        return None
+    base = Path(pdf.lstrip("/")).with_suffix("")
+    for ext in (".webp", ".png", ".jpg"):
+        if (Path(config.docs_dir) / base.with_suffix(ext)).is_file():
+            return "/" + base.with_suffix(ext).as_posix()
+    return None
+
+
 def on_page_markdown(markdown, page, config: MkDocsConfig, files, **kwargs):
     if not page.file.src_uri.startswith("blog/posts/"):
         return markdown
@@ -88,6 +102,7 @@ def on_page_markdown(markdown, page, config: MkDocsConfig, files, **kwargs):
         "titulo": titulo,
         "url": page.url,
         "pdf": meta.get("pdf"),
+        "capa": _capa(meta.get("pdf"), config),
         "data": _data(meta.get("date")),
         "rotulo": meta.get("card_label") or (categorias[0] if categorias else "Publicação"),
         "imagem": meta.get("card_image") or IMAGEM_PADRAO,
@@ -103,6 +118,20 @@ def _card(post):
         abrir = f"window.open('{e(post['pdf'])}', '_blank', 'noopener')"
     else:
         abrir = f"location.href='{e('/' + post['url'].lstrip('/'))}'"
+    if post["capa"]:
+        return f"""
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="publication-card publication-card--capa" onclick="{abrir}" style="cursor: pointer;">
+                        <div class="publication-cover">
+                            <img src="{e(post['capa'])}" alt="" class="cover-image">
+                        </div>
+                        <div class="publication-content">
+                            <div class="publication-kicker">{e(str(post['rotulo']))}</div>
+                            <h3 class="publication-title">{e(post['titulo'])}</h3>
+                            <div class="publication-arrow">→</div>
+                        </div>
+                    </div>
+                </div>"""
     return f"""
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
                     <div class="publication-card" onclick="{abrir}" style="cursor: pointer;">

@@ -14,7 +14,7 @@ Campos opcionais no cabeçalho (front matter) do post:
     card_image: /land/dist/images/publicacoes/dbt.svg   # imagem do card
     card_label: Tutorial                                         # etiqueta sobre a imagem
     description: Resumo curto que aparece no card.
-    pdf: /publicacoes/pdf/artigo.pdf                             # card abre o PDF em outra aba
+    pdf: /publicacoes/pdf/artigo.pdf                             # artigo em PDF, linkado na página do post
 
 Se ao lado do PDF houver a capa com o mesmo nome (artigo.webp, .png ou .jpg), ela entra
 no card no lugar da ilustração: a folha sobre fundo branco, cortada embaixo.
@@ -101,7 +101,6 @@ def on_page_markdown(markdown, page, config: MkDocsConfig, files, **kwargs):
     _posts.append({
         "titulo": titulo,
         "url": page.url,
-        "pdf": meta.get("pdf"),
         "capa": _capa(meta.get("pdf"), config),
         "data": _data(meta.get("date")),
         "rotulo": meta.get("card_label") or (categorias[0] if categorias else "Publicação"),
@@ -113,11 +112,7 @@ def on_page_markdown(markdown, page, config: MkDocsConfig, files, **kwargs):
 
 def _card(post):
     e = html.escape
-    if post["pdf"]:
-        # Artigo em PDF: abre no leitor do navegador, em outra aba
-        abrir = f"window.open('{e(post['pdf'])}', '_blank', 'noopener')"
-    else:
-        abrir = f"location.href='{e('/' + post['url'].lstrip('/'))}'"
+    href = "/" + post["url"].lstrip("/")
     if post["capa"]:
         # capa do PDF sobre fundo branco, no lugar da ilustração
         card, imagem, classe = "publication-card publication-card--capa", post["capa"], "cover-image"
@@ -125,7 +120,7 @@ def _card(post):
         card, imagem, classe = "publication-card", post["imagem"], "card-image"
     return f"""
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
-                    <div class="{card}" onclick="{abrir}" style="cursor: pointer;">
+                    <div class="{card}" onclick="location.href='{e(href)}'" style="cursor: pointer;">
                         <div class="publication-image">
                             <img src="{e(imagem)}" alt="" class="{classe}">
                             <div class="publication-category">{e(str(post['rotulo']).upper())}</div>

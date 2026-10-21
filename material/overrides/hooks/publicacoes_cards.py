@@ -16,8 +16,8 @@ Campos opcionais no cabeçalho (front matter) do post:
     description: Resumo curto que aparece no card.
     pdf: /publicacoes/pdf/artigo.pdf                             # card abre o PDF em outra aba
 
-Se ao lado do PDF houver a capa com o mesmo nome (artigo.webp, .png ou .jpg), o card
-fica vertical, com a capa inteira e o título embaixo, como numa estante de livros.
+Se ao lado do PDF houver a capa com o mesmo nome (artigo.webp, .png ou .jpg), ela entra
+no card no lugar da ilustração: a folha sobre fundo branco, cortada embaixo.
 
 Sem eles, o card usa a imagem padrão, a primeira categoria e o primeiro
 parágrafo depois do título.
@@ -119,24 +119,15 @@ def _card(post):
     else:
         abrir = f"location.href='{e('/' + post['url'].lstrip('/'))}'"
     if post["capa"]:
-        return f"""
-                <div class="col-12 col-sm-6 col-lg-4 mb-4">
-                    <div class="publication-card publication-card--capa" onclick="{abrir}" style="cursor: pointer;">
-                        <div class="publication-cover">
-                            <img src="{e(post['capa'])}" alt="" class="cover-image">
-                        </div>
-                        <div class="publication-content">
-                            <div class="publication-kicker">{e(str(post['rotulo']))}</div>
-                            <h3 class="publication-title">{e(post['titulo'])}</h3>
-                            <div class="publication-arrow">→</div>
-                        </div>
-                    </div>
-                </div>"""
+        # capa do PDF sobre fundo branco, no lugar da ilustração
+        card, imagem, classe = "publication-card publication-card--capa", post["capa"], "cover-image"
+    else:
+        card, imagem, classe = "publication-card", post["imagem"], "card-image"
     return f"""
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
-                    <div class="publication-card" onclick="{abrir}" style="cursor: pointer;">
+                    <div class="{card}" onclick="{abrir}" style="cursor: pointer;">
                         <div class="publication-image">
-                            <img src="{e(post['imagem'])}" alt="" class="card-image">
+                            <img src="{e(imagem)}" alt="" class="{classe}">
                             <div class="publication-category">{e(str(post['rotulo']).upper())}</div>
                         </div>
                         <div class="publication-content">

@@ -104,8 +104,8 @@ collections:
         public_folder: /publicacoes/pdf
         choose_url: false
         hint: >-
-          Opcional. Com um PDF aqui, o card na página Publicações abre o PDF em outra aba, e a
-          página da publicação ganha o link "Ler o artigo (PDF)". Até 10 MB.
+          Opcional. Com um PDF aqui, a página da publicação ganha o link "Ler o artigo (PDF)",
+          que abre o PDF em outra aba. Até 10 MB.
       - name: draft
         label: Esconder do site
         widget: boolean

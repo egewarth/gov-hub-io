@@ -70,14 +70,14 @@ collections:
         label: Imagem do card
         widget: select
         required: false
-        default: /govhub/land/dist/images/publicacoes/paper.svg
+        default: /land/dist/images/publicacoes/paper.svg
         options:
-          - { label: "Documento (padrão)", value: /govhub/land/dist/images/publicacoes/paper.svg }
-          - { label: "Compras", value: /govhub/land/dist/images/publicacoes/compras.svg }
-          - { label: "Configuração", value: /govhub/land/dist/images/publicacoes/config.svg }
-          - { label: "Contribuição", value: /govhub/land/dist/images/publicacoes/contributing.svg }
-          - { label: "dbt", value: /govhub/land/dist/images/publicacoes/dbt.svg }
-          - { label: "Superset", value: /govhub/land/dist/images/publicacoes/superset.svg }
+          - { label: "Documento (padrão)", value: /land/dist/images/publicacoes/paper.svg }
+          - { label: "Compras", value: /land/dist/images/publicacoes/compras.svg }
+          - { label: "Configuração", value: /land/dist/images/publicacoes/config.svg }
+          - { label: "Contribuição", value: /land/dist/images/publicacoes/contributing.svg }
+          - { label: "dbt", value: /land/dist/images/publicacoes/dbt.svg }
+          - { label: "Superset", value: /land/dist/images/publicacoes/superset.svg }
       - name: draft
         label: Esconder do site
         widget: boolean

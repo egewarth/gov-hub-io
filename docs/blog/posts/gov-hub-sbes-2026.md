@@ -1,12 +1,14 @@
 ---
-date: 2026-09-08
+title: ''
+date: 2026-10-21
+description: Artigo apresentado no SBES 2026 sobre a arquitetura do Gov Hub e seu uso no Ipea para integrar e qualificar dados da execução orçamentária e financeira.
 categories:
   - Plataforma
   - Dados Públicos
 card_label: Artigo científico
 card_image: /land/dist/images/publicacoes/paper.svg
-description: Artigo apresentado no SBES 2026 sobre a arquitetura do Gov Hub e seu uso no Ipea para integrar e qualificar dados da execução orçamentária e financeira.
 pdf: /publicacoes/pdf/gov-hub-sbes-2026.pdf
+draft: false
 ---
 
 # Gov Hub: Plataforma livre de integração e qualificação de dados governamentais

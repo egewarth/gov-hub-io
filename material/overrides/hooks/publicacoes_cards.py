@@ -14,6 +14,7 @@ Campos opcionais no cabeçalho (front matter) do post:
     card_image: /land/dist/images/publicacoes/dbt.svg   # imagem do card
     card_label: Tutorial                                         # etiqueta sobre a imagem
     description: Resumo curto que aparece no card.
+    pdf: /publicacoes/pdf/artigo.pdf                             # card abre o PDF em outra aba
 
 Sem eles, o card usa a imagem padrão, a primeira categoria e o primeiro
 parágrafo depois do título.
@@ -86,6 +87,7 @@ def on_page_markdown(markdown, page, config: MkDocsConfig, files, **kwargs):
     _posts.append({
         "titulo": titulo,
         "url": page.url,
+        "pdf": meta.get("pdf"),
         "data": _data(meta.get("date")),
         "rotulo": meta.get("card_label") or (categorias[0] if categorias else "Publicação"),
         "imagem": meta.get("card_image") or IMAGEM_PADRAO,
@@ -96,10 +98,14 @@ def on_page_markdown(markdown, page, config: MkDocsConfig, files, **kwargs):
 
 def _card(post):
     e = html.escape
-    href = "/" + post["url"].lstrip("/")
+    if post["pdf"]:
+        # Artigo em PDF: abre no leitor do navegador, em outra aba
+        abrir = f"window.open('{e(post['pdf'])}', '_blank', 'noopener')"
+    else:
+        abrir = f"location.href='{e('/' + post['url'].lstrip('/'))}'"
     return f"""
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
-                    <div class="publication-card" onclick="location.href='{e(href)}'" style="cursor: pointer;">
+                    <div class="publication-card" onclick="{abrir}" style="cursor: pointer;">
                         <div class="publication-image">
                             <img src="{e(post['imagem'])}" alt="" class="card-image">
                             <div class="publication-category">{e(str(post['rotulo']).upper())}</div>

@@ -6,7 +6,7 @@ categories:
   - Políticas públicas
   - Mapeamento
 card_label: ''
-card_image: /govhub/land/dist/images/publicacoes/compras.svg
+card_image: /land/dist/images/publicacoes/compras.svg
 draft: false
 ---
 
